@@ -26,6 +26,26 @@ provide access key ID and secret access key
 enter default region name (e.g. eu-west-1)
 enter default output format (e.g. json)
 
+## Clone the repo
+```
+git clone https://github.com/theocrithary/Terraform-PowerFlex-4.5-on-AWS.git
+```
+
+## Navigate to the working directory
+```
+cd Terraform-PowerFlex-4.5-on-AWS/provision/deployments/vpn-mode
+```
+
+## Rename the vars.tf.example file to vars.tf
+```
+mv vars-example.tf vars.tf
+```
+
+## Edit the vars.tf file and replace any variables with your own environment variables
+```
+vi vars.tf
+```
+
 ### terraform init
 ```
 terraform init

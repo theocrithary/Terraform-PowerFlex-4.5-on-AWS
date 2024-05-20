@@ -1,0 +1,131 @@
+data "aws_caller_identity" "current" {}
+variable "aws_region" {
+  type    = string
+  default = "eu-west-1"
+}
+variable "vpc_id" {
+  type    = string
+  default = "vpc-00000000000000000"
+}
+variable "subnet_ids" {
+  type    = list(string)
+  default = ["subnet-  default = "subnet-00000000000000000"","subnet-00000000000000000","subnet-00000000000000000"]
+}
+variable "private_subnet_cidr" {
+  type    = list(string)
+  default = ["x.x.x.x/26","x.x.x.x/26","x.x.x.x/26"]
+}
+variable "vpn_security_group" {
+  type    = string
+  default = "sg-00000000000000000"
+}
+variable "aws_storage_az" {
+  type    = list(string)
+  default = ["eu-west-1a","eu-west-1b","eu-west-1c"]
+}
+variable "ami" {
+  type = map(string)
+  default = {
+    co-res    = "ami-00000000000000000"
+    installer = "ami-00000000000000000"
+  }
+}
+variable "instance_type" {
+  type = map(string)
+  default = {
+    co-res    = "c5n.9xlarge"
+    installer = "t2.xlarge"
+  }
+}
+variable "ssh_keys_path" {
+  type    = string
+  default = "/var/pfmp/keys"
+}
+variable "key_path" {
+  type    = string
+  default = "../../../keys/powerflex-denver-key"
+}
+variable "keys_path" {
+  type    = string
+  default = "../../../keys"
+}
+variable "reset_core_location" {
+  type    = string
+  default = "../resources/scripts/reset_core_installation"
+}
+variable "cluster_node_port" {
+  type    = string
+  default = "30400"
+}
+variable "load_balancer_port" {
+  type    = string
+  default = "443"
+}
+variable "load_balancer_protocol" {
+  type    = string
+  default = "TCP"
+}
+variable "target_group_port" {
+  type    = string
+  default = "443"
+}
+variable "target_group_protocol" {
+  type    = string
+  default = "TCP"
+}
+variable "user" {
+  type    = string
+  default = "ec2-user"
+}
+variable "generated_username" {
+  type    = string
+  default = "pflex-user"
+}
+variable "co_res_count" {
+  type    = number
+  default = 6
+}
+variable "root_co-res_volume_size" {
+  type    = number
+  default = 200
+}
+variable "number_of_disks" {
+  type    = number
+  default = 3
+}
+variable "disk_size" {
+  type    = number
+  default = 500
+}
+locals {
+  creator   = "xxxxxxxxx"
+  timestamp = replace(replace(replace(timestamp(), "Z", ""), ":", ""), "-", "")
+}
+variable "pods_cidr" {
+  type    = string
+  default = "10.42.0.0/16"
+}
+variable "application_version" {
+  type    = string
+  default = "xxxxxxxxxx"
+}
+variable "interpreter" {
+  type    = list(string)
+  default = ["/usr/bin/bash", "-c"]
+}
+variable "relative_location" {
+  type    = string
+  default = "/../../../vpn-mode/"
+}
+variable "run_new_installer_scripts_path" {
+  type    = string
+  default = "../resources/scripts/run_new_installer_api/scripts"
+}
+variable "csv_template_path" {
+  type    = string
+  default = "../resources/scripts/run_new_installer_api/csv_templates/6_co_res_3_disks.csv"
+}
+variable "user_data_path" {
+  type = string
+  default = "../resources/scripts/generate_user_and_ssh_user_data/user-data-pflex.tpl"
+}
