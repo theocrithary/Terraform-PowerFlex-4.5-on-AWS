@@ -1,0 +1,21 @@
+{
+    "aws_region" : "us-east-1",
+    "vpc_id":  "vpc-06cd86a04730416f1",
+    "subnet_ids":  ["subnet-06f77d28eb7376547"],
+    "private_subnet_cidr":  ["10.164.173.160/27"],
+    "vpn_security_group":  "sg-06886929077e5d2ad",
+    "aws_storage_az":  ["us-east-1a"],
+    "ami": {
+        "co-res"    : "ami-085e25c4320e48e22",
+        "installer" : "ami-082522aee30d88d15"
+    },
+    "instance_type" : {
+        "co-res" : "c5n.9xlarge",
+        "installer" : "c5n.9xlarge"
+    },
+    "co_res_count" :  3,
+    "number_of_disks" :  3,
+    "disk_size" : 200,
+    "user": "ec2-user",
+    "application_version" :  "powerflex-balanced-dell-test"
+}

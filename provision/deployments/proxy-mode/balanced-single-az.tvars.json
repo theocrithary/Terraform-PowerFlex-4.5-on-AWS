@@ -1,0 +1,21 @@
+{
+    "aws_region" : "us-east-1",
+    "vpc_cidr": "10.0.0.0/16",
+    "private_subnet_cidr" : ["10.0.1.0/27"],
+    "public_subnet_cidr" : "10.0.4.0/27",
+    "aws_storage_az":  ["us-east-1a"],
+    "ami": {
+        "proxy"     : "ami-073ed533d6681ffb9",
+        "co-res"    : "ami-085e25c4320e48e22",
+        "installer" : "ami-082522aee30d88d15"
+    },
+    "instance_type" : {
+        "proxy"     : "t2.micro",
+        "co-res" : "c5n.4xlarge",
+        "installer" : "c5n.2xlarge"
+    },
+    "co_res_count" :  5,
+    "number_of_disks" :  5,
+    "disk_size" : 500,
+    "application_version" :  "powerflex-balanced-proxy-test"
+}

@@ -1,0 +1,1379 @@
+{
+  "realm": "powerflex",
+  "enabled": true,
+  "editUsernameAllowed": true,
+  "bruteForceProtected": true,
+  "permanentLockout": false,
+  "maxFailureWaitSeconds": 900,
+  "minimumQuickLoginWaitSeconds": 60,
+  "waitIncrementSeconds": 60,
+  "quickLoginCheckMilliSeconds": 1000,
+  "maxDeltaTimeSeconds": 43200,
+  "failureFactor": 5,
+  "passwordPolicy": "lowerCase(1) and upperCase(1) and specialChars(1) and digits(1) and length(8) and notUsername(undefined) and notEmail(undefined) and passwordHistory(10) and forceExpiredPasswordChange(60)",
+  "loginTheme": "PowerFlexTheme" ,
+  "attributes": {"frontendUrl": "https://dellpowerflex.com/auth", "editUsernameAllowed": "True"},
+  "defaultRoles": [
+  ],
+  "roles": {
+    "realm": [
+      {
+        "name": "SuperUser",
+        "composite": true,
+        "clientRole": false,
+        "composites": {
+          "client": {
+            "PowerflexServices": [
+              "Administrator"
+            ]
+          }
+        },
+        "attributes": {
+          "powerflexRole": [
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "LifecycleAdmin",
+        "composite": true,
+        "composites": {
+          "client": {
+            "PowerflexServices": [
+              "standard"
+            ]
+          }
+        },
+        "clientRole": false,
+        "attributes": {
+          "powerflexRole": [
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "Technician",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "powerflexRole": [
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "Support",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "powerflexRole": [
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "StorageAdmin",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "powerflexRole": [
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "Monitor",
+        "composite": true,
+        "clientRole": false,
+        "composites": {
+          "client": {
+            "PowerflexServices": [
+              "ReadOnly"
+            ]
+          }
+        },
+        "attributes": {
+          "powerflexRole": [
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "SystemAdmin",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "powerflexRole": [
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "SnapshotManager",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "powerflexRole": [
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "ReplicationManager",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "powerflexRole": [
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "SecurityAdmin",
+        "composite": false,
+        "clientRole": false,
+        "attributes": {
+          "powerflexRole": [
+            "True"
+          ]
+        }
+      },
+      {
+        "name": "DriveReplacer",
+        "composite": true,
+        "composites": {
+          "client": {
+            "PowerflexServices": [
+              "operator"
+            ]
+          }
+        },
+        "clientRole": false,
+        "attributes": {
+          "powerflexRole": [
+            "True"
+          ]
+        }
+      }
+    ],
+    "client": {
+      "PowerflexServices": [
+        {
+          "name": "ReadOnly",
+          "clientRole": true,
+          "attributes": {
+            "powerflexScope": [
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "operator",
+          "clientRole": true,
+          "composite": true,
+          "composites": {
+            "client": {
+              "PowerflexServices": [
+                "ReadOnly"
+              ]
+            }
+          },
+          "attributes": {
+            "powerflexScope": [
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "standard",
+          "clientRole": true,
+          "composite": true,
+          "composites": {
+            "client": {
+              "PowerflexServices": [
+                "operator"
+              ]
+            }
+          },
+          "attributes": {
+            "powerflexScope": [
+              "True"
+            ]
+          }
+        },
+        {
+          "name": "Administrator",
+          "clientRole": true,
+          "composite": true,
+          "composites": {
+            "client": {
+              "PowerflexServices": [
+                "standard"
+              ]
+            }
+          },
+          "attributes": {
+            "powerflexScope": [
+              "True"
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "users": [
+    {
+      "username": "admin",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "admin",
+      "lastName": "admin",
+      "email": "admin@example.com",
+      "credentials": [
+        {
+          "temporary": false,
+          "value": "Admin123!",
+          "type": "password"
+        }
+      ],
+      "disableableCredentialTypes" : [ ],
+      "createdTimestamp": 1621933998367,
+      "attributes": {
+        "SuperUser": [
+          "GLB:GLB"
+        ]
+      },
+      "realmRoles": [
+        "SuperUser"
+      ],
+      "clientRoles": {
+        "account": [
+          "manage-account",
+          "view-profile"
+        ]
+      }
+    }
+  ],
+  "clients": [
+    {
+      "clientId": "PowerflexServices",
+      "protocol": "openid-connect",
+      "directAccessGrantsEnabled": true,
+      "enabled": true,
+      "publicClient": false,
+      "authorizationServicesEnabled": true,
+      "serviceAccountsEnabled": true,
+      "clientAuthenticatorType": "client-secret",
+      "redirectUris": [
+        "*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "protocolMappers": [
+        {
+          "name": "SystemAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SystemAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SystemAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "Client ID",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientId",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientId",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "foo",
+            "access.token.claim": "true",
+            "claim.name": "realm_access.roles",
+            "jsonType.label": "String",
+            "multivalued": "true"
+          }
+        },
+        {
+          "name": "audience Mapper",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "included.custom.audience": "PowerflexServices"
+          }
+        },
+        {
+          "name": "SuperUserRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SuperUser",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SuperUser",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "StorageAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "StorageAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.StorageAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "LifecycleAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "LifecycleAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.LifecycleAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "TechnicianRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "Technician",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.Technician",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "DriveReplacerRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "DriveReplacer",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.DriveReplacer",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "Client IP Address",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientAddress",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientAddress",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SecurityAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SecurityAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SecurityAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "MonitorRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "Monitor",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.Monitor",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "ReplicationManagerRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "ReplicationManager",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.ReplicationManager",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SupportRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "Support",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.Support",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "Client Host",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usersessionmodel-note-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.session.note": "clientHost",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "clientHost",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SnapshotManagerRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SnapshotManager",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SnapshotManager",
+            "jsonType.label": "String"
+          }
+        }
+      ],
+      "standardFlowEnabled": false,
+      "implicitFlowEnabled": false,
+      "fullScopeAllowed": true
+    },
+    {
+      "clientId": "compositeAdapter",
+      "protocol": "openid-connect",
+      "directAccessGrantsEnabled": true,
+      "enabled": true,
+      "publicClient": true,
+      "redirectUris": [
+        "*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "protocolMappers": [
+        {
+          "name": "LifecycleAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "LifecycleAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.LifecycleAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "ReplicationManagerRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "ReplicationManager",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.ReplicationManager",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "TechnicianRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "Technician",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.Technician",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "DriveReplacerRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "DriveReplacer",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.DriveReplacer",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "foo",
+            "access.token.claim": "true",
+            "claim.name": "realm_access.roles",
+            "jsonType.label": "String",
+            "multivalued": "true"
+          }
+        },
+        {
+          "name": "audience Mapper",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "included.custom.audience": "PowerflexServices"
+          }
+        },
+        {
+          "name": "SystemAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SystemAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SystemAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SuperUserRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SuperUser",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SuperUser",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SecurityAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SecurityAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SecurityAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "StorageAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "StorageAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.StorageAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "MonitorRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "Monitor",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.Monitor",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SnapshotManagerRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SnapshotManager",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SnapshotManager",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SupportRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "Support",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.Support",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
+      "clientId": "powerflexRest",
+      "protocol": "openid-connect",
+      "directAccessGrantsEnabled": true,
+      "enabled": true,
+      "publicClient": true,
+      "redirectUris": [
+        "*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "protocolMappers": [
+        {
+          "name": "MonitorRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "Monitor",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.Monitor",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "ReplicationManagerRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "ReplicationManager",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.ReplicationManager",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SuperUserRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SuperUser",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SuperUser",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "StorageAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "StorageAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.StorageAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "DriveReplacerRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "DriveReplacer",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.DriveReplacer",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SupportRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "Support",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.Support",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SnapshotManagerRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SnapshotManager",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SnapshotManager",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "foo",
+            "access.token.claim": "true",
+            "claim.name": "realm_access.roles",
+            "jsonType.label": "String",
+            "multivalued": "true"
+          }
+        },
+        {
+          "name": "audience Mapper",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "included.custom.audience": "PowerflexServices"
+          }
+        },
+        {
+          "name": "SystemAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SystemAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SystemAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "LifecycleAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "LifecycleAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.LifecycleAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "TechnicianRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "Technician",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.Technician",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SecurityAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SecurityAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SecurityAdmin",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
+      "clientId": "pfplatformAdapter",
+      "protocol": "openid-connect",
+      "directAccessGrantsEnabled": true,
+      "enabled": true,
+      "publicClient": true,
+      "redirectUris": [
+        "*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "protocolMappers": [
+        {
+          "name": "MonitorRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "Monitor",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.Monitor",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "ReplicationManagerRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "ReplicationManager",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.ReplicationManager",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SuperUserRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SuperUser",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SuperUser",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "StorageAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "StorageAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.StorageAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "DriveReplacerRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "DriveReplacer",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.DriveReplacer",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SupportRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "Support",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.Support",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SnapshotManagerRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SnapshotManager",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SnapshotManager",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "foo",
+            "access.token.claim": "true",
+            "claim.name": "realm_access.roles",
+            "jsonType.label": "String",
+            "multivalued": "true"
+          }
+        },
+        {
+          "name": "audience Mapper",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "included.custom.audience": "PowerflexServices"
+          }
+        },
+        {
+          "name": "SystemAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SystemAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SystemAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "LifecycleAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "LifecycleAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.LifecycleAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "TechnicianRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "Technician",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.Technician",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SecurityAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SecurityAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SecurityAdmin",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    },
+    {
+      "clientId": "powerflexUI",
+      "protocol": "openid-connect",
+      "directAccessGrantsEnabled": true,
+      "enabled": true,
+      "publicClient": true,
+      "redirectUris": [
+        "*"
+      ],
+      "webOrigins": [
+        "*"
+      ],
+      "protocolMappers": [
+        {
+          "name": "LifecycleAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "LifecycleAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.LifecycleAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "ReplicationManagerRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "ReplicationManager",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.ReplicationManager",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "TechnicianRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "Technician",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.Technician",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "DriveReplacerRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "DriveReplacer",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.DriveReplacer",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "realm roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-realm-role-mapper",
+          "consentRequired": false,
+          "config": {
+            "user.attribute": "foo",
+            "access.token.claim": "true",
+            "claim.name": "realm_access.roles",
+            "jsonType.label": "String",
+            "multivalued": "true"
+          }
+        },
+        {
+          "name": "audience Mapper",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-audience-mapper",
+          "consentRequired": false,
+          "config": {
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "included.custom.audience": "PowerflexServices"
+          }
+        },
+        {
+          "name": "SystemAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SystemAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SystemAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SuperUserRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SuperUser",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SuperUser",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SecurityAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SecurityAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SecurityAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "StorageAdminRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "StorageAdmin",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.StorageAdmin",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "MonitorRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "Monitor",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.Monitor",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SnapshotManagerRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "SnapshotManager",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.SnapshotManager",
+            "jsonType.label": "String"
+          }
+        },
+        {
+          "name": "SupportRoleScopeMapping",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-usermodel-attribute-mapper",
+          "consentRequired": false,
+          "config": {
+            "aggregate.attrs": "true",
+            "multivalued": "true",
+            "userinfo.token.claim": "true",
+            "user.attribute": "Support",
+            "id.token.claim": "true",
+            "access.token.claim": "true",
+            "claim.name": "powerflex.permissions.Support",
+            "jsonType.label": "String"
+          }
+        }
+      ]
+    }
+  ]
+}

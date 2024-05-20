@@ -1,0 +1,92 @@
+# This section includes base Calico installation configuration.
+# For more information, see: https://docs.projectcalico.org/v3.18/reference/installation/api#operator.tigera.io/v1.Installation
+
+apiVersion: helm.cattle.io/v1
+kind: HelmChartConfig
+metadata:
+  name: rke2-calico
+  namespace: kube-system
+spec:
+  valuesContent: |-
+    resources:
+      requests:
+        cpu: {{ control_plane_resource.tigera_operator_cpu_req }}
+        memory: {{ control_plane_resource.tigera_operator_memory_req }}
+{% if 'tigera_operator_cpu_limit' in control_plane_resource or 'tigera_operator_memory_limit' in control_plane_resource %}
+          limits:
+{% endif %}
+{% if 'tigera_operator_cpu_limit' in control_plane_resource %}
+            cpu: {{ control_plane_resource.tigera_operator_cpu_limit }}
+{% endif %}
+{% if 'tigera_operator_memory_limit' in control_plane_resource %}
+            memory: {{ control_plane_resource.tigera_operator_memory_limit }}
+{% endif %}
+    felixConfiguration:
+      healthPort: {{felix_health_port}}
+    installation:
+      controlPlaneTolerations:
+      - key: "node-role.kubernetes.io/control-plane"
+        operator: "Exists"
+        effect: "NoSchedule"
+      - key: "node-role.kubernetes.io/etcd"
+        operator: "Exists"
+        effect: "NoExecute"
+      enabled: true
+      kubernetesProvider: ""
+      calicoNetwork:
+        bgp: {{ bgp }}
+        nodeAddressAutodetectionV4:
+        ## prefer to specify interface or network here but default to first-found for now
+        ## https://docs.projectcalico.org/reference/node/configuration#ip-autodetection-methods
+        #  canReach: '169.254.92.1'
+          interface: {{pod_network}}
+        ipPools:
+        - natOutgoing: Enabled
+          encapsulation: {{ encapsulation }}
+          cidr: "{{ pod_cidr }}"
+      imagePath: "rancher"
+      imagePrefix: "mirrored-calico-"
+      flexVolumePath: None
+      componentResources:
+      - componentName: Typha
+        resourceRequirements:
+          requests:
+            cpu: {{ control_plane_resource.calico_typha_cpu_req }}
+            memory: {{ control_plane_resource.calico_typha_memory_req}}
+{% if 'calico_typha_cpu_limit' in control_plane_resource or 'calico_typha_memory_limit' in control_plane_resource %}
+          limits:
+{% endif %}
+{% if 'calico_typha_cpu_limit' in control_plane_resource %}
+            cpu: {{ control_plane_resource.calico_typha_cpu_limit }}
+{% endif %}
+{% if 'calico_typha_memory_limit' in control_plane_resource %}
+            memory: {{ control_plane_resource.calico_typha_memory_limit }}
+{% endif %}
+      - componentName: Node
+        resourceRequirements:
+          requests:
+            cpu: {{ control_plane_resource.calico_node_cpu_req }}
+            memory: {{ control_plane_resource.calico_node_memory_req }}
+{% if 'calico_node_cpu_limit' in control_plane_resource or 'calico_node_memory_limit' in control_plane_resource %}
+          limits:
+{% endif %}
+{% if 'calico_node_cpu_limit' in control_plane_resource %}
+            cpu: {{ control_plane_resource.calico_node_cpu_limit }}
+{% endif %}
+{% if 'calico_node_memory_limit' in control_plane_resource %}
+            memory: {{ control_plane_resource.calico_node_memory_limit }}
+{% endif %}
+      - componentName: KubeControllers
+        resourceRequirements:
+          requests:
+            cpu: {{ control_plane_resource.calico_kube_controller_cpu_req }}
+            memory: {{ control_plane_resource.calico_kube_controller_memory_req }}
+{% if 'calico_kube_controller_cpu_limit' in control_plane_resource or 'calico_kube_controller_memory_limit' in control_plane_resource %}
+          limits:
+{% endif %}
+{% if 'calico_kube_controller_cpu_limit' in control_plane_resource %}
+            cpu: {{ control_plane_resource.calico_kube_controller_cpu_limit }}
+{% endif %}
+{% if 'calico_kube_controller_memory_limit' in control_plane_resource %}
+            memory: {{ control_plane_resource.calico_kube_controller_memory_limit }}
+{% endif %}

@@ -1,0 +1,47 @@
+# Copyright (c) 2020 Dell Inc. or its subsidiaries. All Rights Reserved.
+---
+##The variables defined on this file are available to all groups.
+# Kubernetes
+service_cidr: "10.43.0.0/16"
+pod_cidr: "10.42.0.0/16"
+encapsulation: "IPIPCrossSubnet"
+bgp: "Enabled"
+
+
+pod_network:
+
+pod_additional_networks:
+
+cis_profile_enabled: false
+
+# Certificate Details.
+key_size: 4096
+ca_days: 3655
+server_days: 1000
+
+new_SSL_listener_port: 8443
+add_additional_SSL_listener_port: false
+
+#cluster name
+cluster_domain_name: cluster.local
+#IP to configutr node level oad balancer- used for kubeAPI LB
+platform_vip:
+
+#KubeApi LB server variables
+kubeapi_domain_name:
+kubeapi_port: 8383
+#Keep unique id in range of 1-255 for every cluster in same network
+#Required only in dev/Qa environment as multiple cluster with loadbalancer are being deployed.
+#Change router_id if multiple clusters are getting deployed
+keepalived_virtual_router_id: 50
+
+#metallb configuration to Configure loadbalancer on k8s platform
+loadbalancer_ip_pool_subnet:
+  - name: pool1
+    protocol: layer2
+    ipranges:
+      - 10.240.126.0/25
+
+loadbalancer_peers: []
+#set Addon-namespace to deploy addons
+addon_namespace: atlantic

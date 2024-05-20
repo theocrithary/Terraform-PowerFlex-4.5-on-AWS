@@ -1,0 +1,22 @@
+{
+    "aws_region" : "us-east-1",
+    "vpc_id":  "vpc-06cd86a04730416f1",
+    "subnet_ids":  ["subnet-0b6afd5c9eef181c3","subnet-0399624382e6b3e26","subnet-024db5d68af25d8dc"],
+    "private_subnet_cidr":  ["10.164.173.64/27","10.164.173.0/27","10.164.164.192/27"],
+    "vpn_security_group":  "sg-06886929077e5d2ad",
+    "aws_storage_az":  ["us-east-1d","us-east-1b","us-east-1f"],
+    "ami": {
+        "co-res"    : "ami-085e25c4320e48e22",
+        "installer" : "ami-082522aee30d88d15"
+    },
+    "instance_type" : {
+        "co-res" : "c5n.9xlarge",
+        "installer" : "c5n.2xlarge"
+    },
+    "co_res_count" :  6,
+    "number_of_disks" :  3,
+    "disk_size" : 500,
+    "user": "ec2-user",
+    "csv_template_path" : "../resources/scripts/run_new_installer_api/csv_templates/6_co_res_3_disks.csv",
+    "application_version" : "powerflex-balanced-multi-test"
+}

@@ -1,0 +1,20 @@
+{
+  "aws_region" : "us-east-1",
+  "vpc_id":  "vpc-0bdafa56993e0c0d1",
+  "subnet_ids":  ["subnet-0482792ce4f16648d"],
+  "private_subnet_cidr":  ["10.164.162.96/27"],
+  "vpn_security_group":  "",
+  "aws_storage_az":  ["us-east-1b"],
+  "ami": {
+    "co-res"    : "ami-0f787d5a839f8268c",
+    "installer" : "ami-01f76a2547cb79060"
+  },
+  "instance_type" : {
+    "co-res" : "c5n.9xlarge",
+    "installer" : "t3.xlarge"
+  },
+  "co_res_count" :  5,
+  "number_of_disks" :  5,
+  "disk_size" : 100,
+  "application_version" :  "powerflex-cirrus-balanced-test"
+}

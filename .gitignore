@@ -1,0 +1,6 @@
+.terraform*
+terraform.tfstate*
+ami/*
+assets/*
+keys/*
+provision/deployments/vpn-mode/vars.tf*
