@@ -38,7 +38,7 @@ cd Terraform-PowerFlex-4.5-on-AWS/provision/deployments/vpn-mode
 
 ## Rename the vars.tf.example file to vars.tf
 ```
-mv vars-example.tf vars.tf
+mv vars-example-tf vars.tf
 ```
 
 ## Edit the vars.tf file and replace any variables with your own environment variables
