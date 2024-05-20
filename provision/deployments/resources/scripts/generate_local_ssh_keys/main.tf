@@ -9,7 +9,7 @@ variable "timestamp" {
 
 resource "null_resource" "generate-local-ssh-keys" {
   provisioner "local-exec" {
-    command = "ssh-keygen -t rsa -b 4096 -m PEM -q -N '' -f ${var.keys_path}/powerflex-denver-key-${var.timestamp} && cp ${var.keys_path}/powerflex-denver-key-${var.timestamp} ${var.keys_path}/powerflex-denver-key "
+    command = "ssh-keygen -t rsa -b 4096 -m PEM -q -N '' -f ${var.keys_path}/powerflex-denver-key-${var.timestamp} && cp ${var.keys_path}/powerflex-denver-key-${var.timestamp} ${var.keys_path}/powerflex-denver-key"
   }
 }
 
