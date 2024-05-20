@@ -56,7 +56,7 @@ variable "user_data" {
   description = "the user data of the instance"
   default = ""
 }
-variable "root_co-res_volume_size" {
+variable "root_volume_size" {
   type = string
   description = "the size of the root volume disk on co-res servers"
   default = ""
