@@ -88,7 +88,7 @@ resource "aws_instance" "powerflex-co-res-ec2" {
     Creator     = var.creator
   }
   root_block_device {
-    volume_size = var.root_co-res_volume_size
+    volume_size = var.root_volume_size
   }
   metadata_options {
     http_tokens                 = "required"

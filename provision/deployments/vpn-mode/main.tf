@@ -72,7 +72,7 @@ module "co-res-server" {
   aws_storage_az      = var.aws_storage_az
   creator             = local.creator
   disk_count          = var.number_of_disks
-  root_volume_size    = var.root_co-res_volume_size
+  root_volume_size    = var.root_volume_size
   instance_count      = var.co_res_count
   instance_type       = lookup(var.instance_type, "co-res")
   key_id              = module.auto-generated-key-pairs.key-id
