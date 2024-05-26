@@ -35,6 +35,12 @@ variable "user_data" {
   description = "the user data of the instance"
   default = ""
 }
+variable "root_volume_size" {
+  type = string
+  description = "the size of the root volume disk on installer server"
+  default = ""
+}
+
 
 resource "aws_instance" "powerflex-installer-ec2" {
   ami           = var.ami
@@ -51,6 +57,9 @@ resource "aws_instance" "powerflex-installer-ec2" {
     GeneratedBy = "hashicorp terraform"
     Release     = var.application_version
     Creator     = var.creator
+  }
+  root_block_device {
+    volume_size = var.root_volume_size
   }
   metadata_options {
     http_tokens                 = "required"

@@ -67,8 +67,8 @@ terraform apply -auto-approve
 - SSH to the installer instance
 ```
 cd ../../../keys/
-scp -i "powerflex-denver-key" powerflex-denver-key ec2-user@172.26.2.61:/home/ec2-user/
-ssh -i "powerflex-denver-key" ec2-user@172.26.2.61
+scp -i "powerflex-denver-key" powerflex-denver-key ec2-user@172.26.2.177:/home/ec2-user/
+ssh -i "powerflex-denver-key" ec2-user@172.26.2.177
 ```
 
 ### Copy the SSH key to all storage nodes
@@ -80,20 +80,52 @@ cp powerflex-denver-key .ssh/id_rsa
 - Retrieve the IP addresses of all co-res storage nodes from the AWS console
 - Copy the SSH key to each co-res storage node
 ```
-scp .ssh/id_rsa ec2-user@172.26.2.46:.ssh/id_rsa
-scp .ssh/id_rsa ec2-user@172.26.2.110:.ssh/id_rsa
-scp .ssh/id_rsa ec2-user@172.26.2.172:.ssh/id_rsa
-scp .ssh/id_rsa ec2-user@172.26.2.9:.ssh/id_rsa
-scp .ssh/id_rsa ec2-user@172.26.2.68:.ssh/id_rsa
-scp .ssh/id_rsa ec2-user@172.26.2.179:.ssh/id_rsa
+scp .ssh/id_rsa ec2-user@172.26.2.184:.ssh/id_rsa
+scp .ssh/id_rsa ec2-user@172.26.2.185:.ssh/id_rsa
+scp .ssh/id_rsa ec2-user@172.26.2.140:.ssh/id_rsa
+scp .ssh/id_rsa ec2-user@172.26.2.167:.ssh/id_rsa
+scp .ssh/id_rsa ec2-user@172.26.2.143:.ssh/id_rsa
+
+scp .ssh/id_rsa ec2-user@172.26.2.182:.ssh/id_rsa
+```
+
+### Install Kubectl CLI tool, eable root login and disable firewall on each PFMP node
+```
+ssh 172.26.2.184
+curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+sudo sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
+systemctl stop firewalld
+systemctl disable firewalld
+systemctl mask --now firewalld
+reboot
+
+ssh 172.26.2.185
+curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+sudo sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
+systemctl stop firewalld
+systemctl disable firewalld
+systemctl mask --now firewalld
+reboot
+
+ssh 172.26.2.140
+curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+sudo sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
+systemctl stop firewalld
+systemctl disable firewalld
+systemctl mask --now firewalld
+reboot
+
 ```
 
 ### Prepare the JSON file for installer setup
 - Retrieve the DNS of the load balancer from the AWS console
-e.g. theocrithary-20240515T000419-1431912f01fdc4ab.elb.eu-west-1.amazonaws.com
+e.g. theocrithary-20240523T221731-4c32464c6a13470d.elb.eu-west-1.amazonaws.com
 - Retrieve one of the IP's by resolving the DNS name
 ```
-dig +short theocrithary-20240516T234716-b327a37da6a9dd23.elb.eu-west-1.amazonaws.com | head -1
+dig +short theocrithary-20240523T221731-4c32464c6a13470d.elb.eu-west-1.amazonaws.com | head -1
 ```
 - Prepare the JSON file as per below and replace the "Nodes" hostname and IP with the co-res instances 1-3
 ```
@@ -102,16 +134,16 @@ dig +short theocrithary-20240516T234716-b327a37da6a9dd23.elb.eu-west-1.amazonaws
     "Nodes":
     [
       {
-        "hostname": "ip-172-26-2-46.eu-west-1.compute.internal",
-        "ipaddress": "172.26.2.46"
+        "hostname": "ip-172-26-2-184.eu-west-1.compute.internal",
+        "ipaddress": "172.26.2.184"
       },
       {
-        "hostname": "ip-172-26-2-110.eu-west-1.compute.internal",
-        "ipaddress": "172.26.2.110"
+        "hostname": "ip-172-26-2-185.eu-west-1.compute.internal",
+        "ipaddress": "172.26.2.185"
       },
       {
-        "hostname": "ip-172-26-2-172.eu-west-1.compute.internal",
-        "ipaddress": "172.26.2.172"
+        "hostname": "ip-172-26-2-140.eu-west-1.compute.internal",
+        "ipaddress": "172.26.2.140"
       }
     ],
  
@@ -125,11 +157,11 @@ dig +short theocrithary-20240516T234716-b327a37da6a9dd23.elb.eu-west-1.amazonaws
 	  }
     ],
     
-    "PFMPHostname" : "172.26.2.10",
+    "PFMPHostname" : "172.26.2.186",
   
-    "PFMPHostIP" : "172.26.2.10"
+    "PFMPHostIP" : "172.26.2.186"
 }
-
+```
 
 
 ### Run the installer setup and install scripts
@@ -152,16 +184,20 @@ sudo /tmp/bundle/pfmp_deployments/PFMP*/PFMP_Installer/scripts/install_PFMP.sh a
 - Answer the prompts as follows;
 ```
 Are ssh keys used for authentication connecting to the cluster nodes[Y]?:y
-Please enter the ssh username for the nodes specified in the PFMP_Config.json[root]:ec2-user
+Please enter the ssh username for the nodes specified in the PFMP_Config.json[root]:root
 Are ssh keys the same for all the cluster nodes[Y]?:y
 Please enter the location of the ssh key for the nodes specified in the PFMP_Config.json[id_rsa]:id_rsa
 Are the nodes used for the PFMP cluster, co-res nodes [Y]?:y
 ```
 
 
+
+
+
+### On the first PFMP node, copy the kubeconfig file to the root account
 ```
-sudo growpart /dev/nvme0n1 3
-sudo resize2fs /dev/nvme0n1p3
+sudo cp /etc/rancher/rke2/rke2.yaml /root/.kube/config
 ```
+
 
 
