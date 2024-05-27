@@ -1,0 +1,11 @@
+IPs,Password,Operating System,Is MDM/TB,Is SDS,SDS Storage Device List,Protection Domain,StoragePool List,Fault Set,Is SDC,Is SDR,SDR All IPs
+172.26.2.53,c4apj_N0va,linux,No,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ1,Yes,Yes,172.26.2.53
+172.26.2.122,c4apj_N0va,linux,TB,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ2,Yes,Yes,172.26.2.122
+172.26.2.160,c4apj_N0va,linux,TB,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ3,Yes,Yes,172.26.2.160
+172.26.2.36,c4apj_N0va,linux,Primary,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ1,Yes,Yes,172.26.2.36
+172.26.2.118,c4apj_N0va,linux,Secondary,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ2,Yes,Yes,172.26.2.118
+172.26.2.141,c4apj_N0va,linux,Secondary,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ3,Yes,Yes,172.26.2.141
+,,,,,,,,,,,
+Storage Pool Configuration,,,,,,,,,,,
+ProtectionDomain,StoragePool,Media Type,Replication journal capacity percentage,,,,,,,,
+PD1,SP1,SSD,50,,,,,,,,
