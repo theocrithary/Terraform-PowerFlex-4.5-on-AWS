@@ -85,9 +85,10 @@ variable "co_res_count" {
   type    = number
   default = 6
 }
-variable "root_co-res_volume_size" {
+# size of the installer & co-res root volume
+variable "root_volume_size" {
   type    = number
-  default = 200
+  default = 600
 }
 variable "number_of_disks" {
   type    = number

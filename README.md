@@ -67,8 +67,8 @@ terraform apply -auto-approve
 - SSH to the installer instance
 ```
 cd ../../../keys/
-scp -i "powerflex-denver-key" powerflex-denver-key ec2-user@172.26.2.177:/home/ec2-user/
-ssh -i "powerflex-denver-key" ec2-user@172.26.2.177
+scp -i "powerflex-denver-key" powerflex-denver-key ec2-user@172.26.2.189:/home/ec2-user/
+ssh -i "powerflex-denver-key" ec2-user@172.26.2.189
 ```
 
 ### Copy the SSH key to all storage nodes
@@ -80,43 +80,43 @@ cp powerflex-denver-key .ssh/id_rsa
 - Retrieve the IP addresses of all co-res storage nodes from the AWS console
 - Copy the SSH key to each co-res storage node
 ```
-scp .ssh/id_rsa ec2-user@172.26.2.184:.ssh/id_rsa
-scp .ssh/id_rsa ec2-user@172.26.2.185:.ssh/id_rsa
-scp .ssh/id_rsa ec2-user@172.26.2.140:.ssh/id_rsa
-scp .ssh/id_rsa ec2-user@172.26.2.167:.ssh/id_rsa
+scp .ssh/id_rsa ec2-user@172.26.2.172:.ssh/id_rsa
+scp .ssh/id_rsa ec2-user@172.26.2.183:.ssh/id_rsa
 scp .ssh/id_rsa ec2-user@172.26.2.143:.ssh/id_rsa
+scp .ssh/id_rsa ec2-user@172.26.2.132:.ssh/id_rsa
+scp .ssh/id_rsa ec2-user@172.26.2.174:.ssh/id_rsa
 
 scp .ssh/id_rsa ec2-user@172.26.2.182:.ssh/id_rsa
 ```
 
 ### Install Kubectl CLI tool, eable root login and disable firewall on each PFMP node
 ```
-ssh 172.26.2.184
+ssh 172.26.2.172
 curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 sudo sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
-systemctl stop firewalld
-systemctl disable firewalld
-systemctl mask --now firewalld
-reboot
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+sudo systemctl mask --now firewalld
+sudo reboot
 
-ssh 172.26.2.185
+ssh 172.26.2.183
 curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 sudo sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
-systemctl stop firewalld
-systemctl disable firewalld
-systemctl mask --now firewalld
-reboot
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+sudo systemctl mask --now firewalld
+sudo reboot
 
-ssh 172.26.2.140
+ssh 172.26.2.143
 curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 sudo sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
-systemctl stop firewalld
-systemctl disable firewalld
-systemctl mask --now firewalld
-reboot
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+sudo systemctl mask --now firewalld
+sudo reboot
 
 ```
 
@@ -125,7 +125,7 @@ reboot
 e.g. theocrithary-20240523T221731-4c32464c6a13470d.elb.eu-west-1.amazonaws.com
 - Retrieve one of the IP's by resolving the DNS name
 ```
-dig +short theocrithary-20240523T221731-4c32464c6a13470d.elb.eu-west-1.amazonaws.com | head -1
+dig +short theocrithary-20240527T000633-5ce6fb6bb48f2cc5.elb.eu-west-1.amazonaws.com | head -1
 ```
 - Prepare the JSON file as per below and replace the "Nodes" hostname and IP with the co-res instances 1-3
 ```
@@ -134,16 +134,16 @@ dig +short theocrithary-20240523T221731-4c32464c6a13470d.elb.eu-west-1.amazonaws
     "Nodes":
     [
       {
-        "hostname": "ip-172-26-2-184.eu-west-1.compute.internal",
-        "ipaddress": "172.26.2.184"
+        "hostname": "ip-172-26-2-172.eu-west-1.compute.internal",
+        "ipaddress": "172.26.2.172"
       },
       {
-        "hostname": "ip-172-26-2-185.eu-west-1.compute.internal",
-        "ipaddress": "172.26.2.185"
+        "hostname": "ip-172-26-2-183.eu-west-1.compute.internal",
+        "ipaddress": "172.26.2.183"
       },
       {
-        "hostname": "ip-172-26-2-140.eu-west-1.compute.internal",
-        "ipaddress": "172.26.2.140"
+        "hostname": "ip-172-26-2-143.eu-west-1.compute.internal",
+        "ipaddress": "172.26.2.143"
       }
     ],
  
@@ -157,9 +157,9 @@ dig +short theocrithary-20240523T221731-4c32464c6a13470d.elb.eu-west-1.amazonaws
 	  }
     ],
     
-    "PFMPHostname" : "172.26.2.186",
+    "PFMPHostname" : "172.26.2.157",
   
-    "PFMPHostIP" : "172.26.2.186"
+    "PFMPHostIP" : "c"
 }
 ```
 
@@ -191,6 +191,11 @@ Are the nodes used for the PFMP cluster, co-res nodes [Y]?:y
 ```
 
 
+### Open another SSH session on the installer server and watch the logs
+```
+ssh -i "powerflex-denver-key" ec2-user@172.26.2.189
+tail -f /tmp/bundle/pfmp_deployments/PFMP2-4.5.2.0-173/atlantic/logs/bedrock.log
+```
 
 
 
@@ -198,6 +203,217 @@ Are the nodes used for the PFMP cluster, co-res nodes [Y]?:y
 ```
 sudo cp /etc/rancher/rke2/rke2.yaml /root/.kube/config
 ```
+
+
+
+
+## Delete the installer VM
+
+- Once the above script has completed and confirmed via the logs, you can then power off and delete the PFMP installer VM by logging into the vSphere client manually.
+
+# Step 3: Login to PowerFlex Manager to complete setup
+
+- Use a browser to open the PowerFlex Manager console; https://powerflex.iac.ssc/
+
+- Login with the default user account
+```
+admin / Admin123!
+```
+
+- Change the password when prompted
+
+- Step through the Initial Config Wizard and select "I want to deploy a new instance of PowerFlex"
+
+- Upload the compliance bundle (PowerFlex_Software_4.5.0.0_287_r1.zip) 
+      - requires a CIFs/SMB file share to host the file or a web server such as AWS S3 with a public URL
+
+- The package download will take a few mins to complete, but will raise a critical warning. Action it by allowing unsigned package.
+
+- Upload the compatibility management version file (cm-20230901.gpg)
+     - Settings -> compatibility management -> upload file
+
+- Go back to the installation configuration wizard page by navigating to the ? in the top right and clicking on 'getting started'
+
+- Configure the networks
+```
+      - Define networks -> Define
+      - Name: powerflex-data
+      - Network Type: PowerFlex Data
+      - VLAN ID: 1
+      - Subnet: 192.168.10.0
+      - Subnet Mask: 255.255.255.0
+      - Gateway: 192.168.10.1
+      - Primary DNS: 192.168.10.10
+      - Secondary DNS: 192.168.10.12
+      - DNS Suffix: lab.local
+      - IP Address Range
+      - Role: Server or Client
+      - Starting IP: 192.168.10.69
+      - Ending IP: 192.168.10.72
+```
+```
+      - Define networks -> Define
+      - Name: powerflex-replication
+      - Network Type: PowerFlex 
+      - VLAN ID: 1
+      - Subnet: 192.168.10.0
+      - Subnet Mask: 255.255.255.0
+      - Gateway: 192.168.10.1
+      - Primary DNS: 192.168.10.10
+      - Secondary DNS: 192.168.10.12
+      - DNS Suffix: lab.local
+      - IP Address Range
+      - Role: Server or Client
+      - Starting IP: 192.168.10.74
+      - Ending IP: 192.168.10.77
+```
+- Discover Resources
+```
+      - Resource Type: Node (Software Management)
+      - IP/Hostname Range: Start IP: 192.168.10.69 End IP: 192.168.10.72
+      - Resource State: Managed
+      - Discover into Node Pool: Global
+      - Credentials: click on the + icon and create a new OS Admin credential with the root password for the storage nodes
+```
+# Step 4: Install PowerFlex software on SDS storage nodes
+
+- Confirm discovered resources by navigating to the 'Resources' tab and exploring the node and node pool details
+```
+      - Compliance: Unknown
+      - Deployment Status: Not in Use
+      - Managed State: Managed
+```
+- Create a new template by navigating to the 'Lifecycle' tab and selecting 'Templates'
+```
+      - Create
+      - Create a new template and provide a name
+      - Select a template category and select the 'PowerFlex 4.5.0.0' firmware and software compliance
+      - Choose the 'PowerFlex SuperUser and All LifecycleAdmin and DriveReplacer' role to have access to the resource group
+      - Save
+      - Add Node
+      - Component Name: Node (Software Only)
+      - Number of Instances: 4
+      - OS: Ubuntu
+      - Use Node For Dell PowerFlex: tick
+      - PowerFlex Role: Storage Only
+      - Client Storage Access: SDC Only
+      - Enable Replication: tick
+      - Node Pool: Global
+      - Interfaces -> Add Interface -> Choose Networks
+      - Select 'powerflex-data' and click >> to add to the template and save
+      - Add Cluster -> PowerFlex Cluster
+      - Associate Selected: Node (Software Only): tick
+      - Target Gateway: PowerFlex System
+      - All other settings as default and save
+      - Publish Template
+```
+- Deploy a new resource group
+```
+      - Select the template and click 'Deploy Resource Group'
+      - Provide a name for the resource group and click next
+      - Use all the default settings, except the following;
+      - Journal Capacity: Default 10%
+      - MDM Virtual IP Source: User Entered IP
+      - PowerFlex-data IP Source: Manual Entry
+      - PowerFlex-data IP Address: 192.168.10.73 (a seperate IP assigned as the VIP for the MDM cluster)
+```
+# Step 5: Install the SDC client on a Linux host
+
+### RHEL
+- Obtain the following files from the complete SW package and transfer to Linux host
+      - RPM-GPG-KEY-ScaleIO_4.5.0.287
+      - EMC-ScaleIO-sdc-4.5-0.287.el9.x86_64.rpm
+
+- Run the following commands to install the SDC client and connect it to the MDM;
+```
+rpm --import RPM-GPG-KEY-ScaleIO_4.5.0.287
+MDM_IP=192.168.10.73 rpm -i EMC-ScaleIO-sdc-4.5-0.287.el8.x86_64.rpm
+service scini status
+systemctl status scini
+```
+- Check that the MDM has been configured correctly
+```
+/opt/emc/scaleio/sdc/bin/drv_cfg --query_mdms
+```
+- Check if there are any existing volumes mapped to this host
+```
+/opt/emc/scaleio/sdc/bin/drv_cfg --query_vols
+```
+
+# Step 6: Create a volume and map it to the SDC client
+- Login to PowerFlex Manager console
+- Navigate to the 'Block' storage tab and select 'Hosts'
+- Observe the newly added SDC client host IP
+- Navigate to the 'Block' tab and select 'Volumes'
+- Click '+ Create Volume'
+- Provide a name, size and select a storage pool, then click create
+- After the volume is created, click 'map' when you see the popup in the bottom left corner of the console
+- Selec the SDC client from the host list and click 'map'
+
+# Step 7: Test the volume
+- SSH back into the SDC client
+```
+ssh root@192.168.10.17
+```
+- Scan for any new volumes
+```
+/opt/emc/scaleio/sdc/bin/drv_cfg --rescan
+```
+- Confirm the volume was connected
+```
+/opt/emc/scaleio/sdc/bin/drv_cfg --query_vols
+```
+- Check the new block device and take note of the device name (e.g. scinia)
+```
+lsblk -f
+```
+- Format the device with a filesystem (e.g. EXT4)
+```
+mkfs -t ext4 /dev/scinia
+```
+- Create a new directory to mount the device
+```
+mkdir /data1
+```
+- Mount the device to the new directory
+```
+mount /dev/scinia /data1
+```
+- Change to the path and create a test file to confirm read/write access to the volume
+```
+cd /data1
+touch testfile
+```
+
+
+
+# ---- Troubleshooting ----
+
+## Timeout errors
+All actions are idempotent, so you can run the following command as many times as needed to complete the build successfully.
+```
+terraform apply -auto-approve
+```
+- If you get any errors or the process does not complete, try running it again.
+- Once completed, you should see a message similar to the below;
+```
+Apply complete! Resources: 0 added, 8 changed, 0 destroyed.
+```
+
+## Unable to login to 1 or more nodes
+- Try manually logging in to the effected host with either the 'ubuntu' or 'root' account
+- If you are unable to login to root, but ubuntu is accessible, then try restarting the SSH daemon
+
+```
+sudo service sshd restart
+exit
+terraform apply -auto-approve
+```
+
+
+
+
+
 
 
 
