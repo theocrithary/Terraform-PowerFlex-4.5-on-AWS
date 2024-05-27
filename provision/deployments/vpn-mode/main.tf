@@ -45,6 +45,7 @@ module "installer-server" {
   ami                 = lookup(var.ami, "installer")
   application_version = var.application_version
   creator             = local.creator
+  root_volume_size    = var.root_volume_size
   instance_type       = lookup(var.instance_type, "installer")
   key_id              = module.auto-generated-key-pairs.key-id
   security_group_ids  = concat(module.internal_security_group.security_group_ids, [var.vpn_security_group])
