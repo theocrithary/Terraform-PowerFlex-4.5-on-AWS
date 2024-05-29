@@ -342,7 +342,8 @@ admin / Admin123!
 ## Step 7: Install the SDC client on a Linux host
 
 ### Ubuntu
-- Confirm kernel version and if required, change the kernel to a generic kernel such as 5.15.0-107-generic
+- Check if kernel version is an AWS kernel such as 6.5.0-1017-aws or a generic kernel such as 5.15.0-107-generic
+
 ```
 uname -r
 ```
@@ -361,6 +362,8 @@ grep submenu /boot/grub/grub.cfg
 ```
 - The output should be something like; submenu 'Advanced options for Ubuntu' $menuentry_id_option 'gnulinux-advanced-db5e27f6-7377-40b0-9756-df259213cbb0'
 - Get the full menu entry ID with the following command
+
+gnulinux-advanced-db5e27f6-7377-40b0-9756-df259213cbb0>gnulinux-5.15.0-107-generic-advanced-db5e27f6-7377-40b0-9756-df259213cbb0
 ```
 grep 5.15.0.107 /boot/grub/grub.cfg
 ```
@@ -371,7 +374,7 @@ sudo sed -i 's/GRUB_DEFAULT=0/GRUB_DEFAULT="gnulinux-advanced-db5e27f6-7377-40b0
 sudo update-grub
 sudo reboot
 ```
-- After the Linux host reboots, log back in via SSH and confirm the correct kernel
+- After the Linux host reboots, log back in via SSH and confirm the kernel version is now set to a generic type
 ```
 uname -r
 ```
@@ -379,26 +382,31 @@ uname -r
 - Obtain the following files from the complete SW package and transfer to Linux host
       - EMC-ScaleIO-lia-4.5-2000.135.Ubuntu.22.04.x86_64.tar
       - EMC-ScaleIO-sdc-4.5-2000.135.Ubuntu.22.04.x86_64.tar
+- Obtain the following file from the FTP site ftp://ftp.emc.com (contact support for username and password)
+      - scini.tar
 - Browse to the correct Linux distro, PowerFlex release and kernel version (e.g. ftp://ftp.emc.com/Ubuntu22.04/4.5.2000.135/5.15.0-107-generic/)
 - Transfer all 3 files to the Ubuntu host
 - Run the following commands to install the SDC client and connect it to the MDM;
 ```
 tar -xvf EMC-ScaleIO-lia-4.5-2000.135.Ubuntu.22.04.x86_64.tar
 tar -xvf EMC-ScaleIO-sdc-4.5-2000.135.Ubuntu.22.04.x86_64.tar
+tar -xvf scini.tar
 ./siob_extract EMC-ScaleIO-sdc-4.5-2000.135.Ubuntu.22.04.x86_64.siob
 ./siob_extract EMC-ScaleIO-lia-4.5-2000.135.Ubuntu.22.04.x86_64.siob
+./siob_extract scini.tar
+sudo mkdir -p /bin/emc/scaleio/scini_sync/driver_cache/Ubuntu/4.5.2000.135/5.15.0-30-generic
+sudo cp scini.ko /bin/emc/scaleio/scini_sync/driver_cache/Ubuntu/4.5.2000.135/5.15.0-30-generic
 sudo MDM_IP=172.26.2.31 dpkg -i EMC-ScaleIO-sdc-4.5-2000.135.Ubuntu.22.04.x86_64.deb
 sudo TOKEN=<powerflex password> dpkg -i EMC-ScaleIO-lia-4.5-2000.135.Ubuntu.22.04.x86_64.deb
-service scini status
-systemctl status scini
+sudo systemctl status scini
 ```
 - Check that the MDM has been configured correctly
 ```
-/opt/emc/scaleio/sdc/bin/drv_cfg --query_mdms
+sudo /opt/emc/scaleio/sdc/bin/drv_cfg --query_mdms
 ```
 - Check if there are any existing volumes mapped to this host
 ```
-/opt/emc/scaleio/sdc/bin/drv_cfg --query_vols
+sudo /opt/emc/scaleio/sdc/bin/drv_cfg --query_vols
 ```
 
 ## Step 8: Create a volume and map it to the SDC client
@@ -415,27 +423,27 @@ systemctl status scini
 - SSH back into the SDC client
 - Scan for any new volumes
 ```
-/opt/emc/scaleio/sdc/bin/drv_cfg --rescan
+sudo /opt/emc/scaleio/sdc/bin/drv_cfg --rescan
 ```
 - Confirm the volume was connected
 ```
-/opt/emc/scaleio/sdc/bin/drv_cfg --query_vols
+sudo /opt/emc/scaleio/sdc/bin/drv_cfg --query_vols
 ```
 - Check the new block device and take note of the device name (e.g. scinia)
 ```
-lsblk -f
+sudo lsblk -f
 ```
 - Format the device with a filesystem (e.g. EXT4)
 ```
-mkfs -t ext4 /dev/scinia
+sudo mkfs -t ext4 /dev/scinia
 ```
 - Create a new directory to mount the device
 ```
-mkdir /data0
+sudo mkdir /data0
 ```
 - Mount the device to the new directory
 ```
-mount /dev/scinia /data0
+sudo mount /dev/scinia /data0
 ```
 - Change to the path and create a test file to confirm read/write access to the volume
 ```
