@@ -321,12 +321,14 @@ admin / Admin123!
 - Copy the required software from the "Complete Software" download bundle obtained from the Dell support site
 - Be sure to copy the rpm's that match your instance OS version (e.g. PowerFlex_4.5.2000.135_Complete_Core_SW\PowerFlex_4.5.2000.135_SLES15.4.zip matches SLES 15.4)
 - Copy the following packages;
-      - EMC-ScaleIO-activemq-5.xx.xxxx.noarch.rpm
-      - EMC-ScaleIO-mdm-4.5xx.xxx.sles15.4.x86_64.rpm
-      - EMC-ScaleIO-sds-4.5xx.xxx.sles15.4.x86_64.rpm
-      - EMC-ScaleIO-sdt-4.5xx.xxx.sles15.4.x86_64.rpm
-      - EMC-ScaleIO-lia-4.5xx.xxx.sles15.4.x86_64.rpm
-      - EMC-ScaleIO-sdr-4.5xx.xxx.sles15.4.x86_64.rpm
+```
+- EMC-ScaleIO-activemq-5.xx.xxxx.noarch.rpm
+- EMC-ScaleIO-mdm-4.5xx.xxx.sles15.4.x86_64.rpm
+- EMC-ScaleIO-sds-4.5xx.xxx.sles15.4.x86_64.rpm
+- EMC-ScaleIO-sdt-4.5xx.xxx.sles15.4.x86_64.rpm
+- EMC-ScaleIO-lia-4.5xx.xxx.sles15.4.x86_64.rpm
+- EMC-ScaleIO-sdr-4.5xx.xxx.sles15.4.x86_64.rpm
+```
 - Return to the PowerFlex Manager UI
 - Go to the 'installation configuration wizard' page by navigating to the ? in the top right and clicking on 'getting started'
 - Click 'Deploy With Installation File'
@@ -362,8 +364,6 @@ grep submenu /boot/grub/grub.cfg
 ```
 - The output should be something like; submenu 'Advanced options for Ubuntu' $menuentry_id_option 'gnulinux-advanced-db5e27f6-7377-40b0-9756-df259213cbb0'
 - Get the full menu entry ID with the following command
-
-gnulinux-advanced-db5e27f6-7377-40b0-9756-df259213cbb0>gnulinux-5.15.0-107-generic-advanced-db5e27f6-7377-40b0-9756-df259213cbb0
 ```
 grep 5.15.0.107 /boot/grub/grub.cfg
 ```
@@ -380,10 +380,14 @@ uname -r
 ```
 - The kernel should now be similar to; 5.15.0-107-generic
 - Obtain the following files from the complete SW package and transfer to Linux host
-      - EMC-ScaleIO-lia-4.5-2000.135.Ubuntu.22.04.x86_64.tar
-      - EMC-ScaleIO-sdc-4.5-2000.135.Ubuntu.22.04.x86_64.tar
+```
+- EMC-ScaleIO-lia-4.5-2000.135.Ubuntu.22.04.x86_64.tar
+- EMC-ScaleIO-sdc-4.5-2000.135.Ubuntu.22.04.x86_64.tar
+```
 - Obtain the following file from the FTP site ftp://ftp.emc.com (contact support for username and password)
-      - scini.tar
+```
+- scini.tar
+```
 - Browse to the correct Linux distro, PowerFlex release and kernel version (e.g. ftp://ftp.emc.com/Ubuntu22.04/4.5.2000.135/5.15.0-107-generic/)
 - Transfer all 3 files to the Ubuntu host
 - Run the following commands to install the SDC client and connect it to the MDM;
