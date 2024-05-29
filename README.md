@@ -75,8 +75,8 @@ terraform apply -auto-approve
 - SSH to the installer instance
 ```
 cd ../../../keys/
-scp -i "powerflex-denver-key" powerflex-denver-key ec2-user@172.26.2.42:/home/ec2-user/
-ssh -i "powerflex-denver-key" ec2-user@172.26.2.42
+scp -i "powerflex-denver-key" powerflex-denver-key ec2-user@172.26.2.33:/home/ec2-user/
+ssh -i "powerflex-denver-key" ec2-user@172.26.2.33
 ```
 
 ### Copy the SSH key to all storage nodes
@@ -87,42 +87,74 @@ cp powerflex-denver-key .ssh/id_rsa
 - Retrieve the IP addresses of all co-res storage nodes from the AWS console
 - Copy the SSH key to each co-res storage node
 ```
-scp .ssh/id_rsa ec2-user@172.26.2.53:.ssh/id_rsa
-scp .ssh/id_rsa ec2-user@172.26.2.122:.ssh/id_rsa
-scp .ssh/id_rsa ec2-user@172.26.2.160:.ssh/id_rsa
-scp .ssh/id_rsa ec2-user@172.26.2.36:.ssh/id_rsa
+scp .ssh/id_rsa ec2-user@172.26.2.60:.ssh/id_rsa
 scp .ssh/id_rsa ec2-user@172.26.2.118:.ssh/id_rsa
-scp .ssh/id_rsa ec2-user@172.26.2.141:.ssh/id_rsa
+scp .ssh/id_rsa ec2-user@172.26.2.156:.ssh/id_rsa
+scp .ssh/id_rsa ec2-user@172.26.2.31:.ssh/id_rsa
+scp .ssh/id_rsa ec2-user@172.26.2.111:.ssh/id_rsa
+scp .ssh/id_rsa ec2-user@172.26.2.159:.ssh/id_rsa
 ```
 
-### Install Kubectl CLI tool, eable root login and disable firewall on each PFMP node
+### Install Kubectl CLI tool (PFMP nodes only), enable root login and disable firewall on each co-res node
 ```
-ssh 172.26.2.53
-curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-sudo sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
-sudo systemctl stop firewalld
-sudo systemctl disable firewalld
-sudo systemctl mask --now firewalld
-sudo reboot
-
-ssh 172.26.2.122
+ssh 172.26.2.60
 curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
 sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
 sudo sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
 sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
-sudo systemctl restart sshd
-sudo systemctl disable firewalld
-sudo systemctl mask --now firewalld
-sudo reboot
-
-ssh 172.26.2.160
-curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
-sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
-sudo sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
 sudo systemctl stop firewalld
 sudo systemctl disable firewalld
 sudo systemctl mask --now firewalld
+sudo passwd root
+sudo reboot
+
+ssh 172.26.2.118
+curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+sudo sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
+sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+sudo systemctl mask --now firewalld
+sudo passwd root
+sudo reboot
+
+ssh 172.26.2.156
+curl -LO https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl
+sudo install -o root -g root -m 0755 kubectl /usr/local/bin/kubectl
+sudo sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
+sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+sudo systemctl mask --now firewalld
+sudo passwd root
+sudo reboot
+
+ssh 172.26.2.31
+sudo sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
+sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+sudo systemctl mask --now firewalld
+sudo passwd root
+sudo reboot
+
+ssh 172.26.2.111
+sudo sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
+sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+sudo systemctl mask --now firewalld
+sudo passwd root
+sudo reboot
+
+ssh 172.26.2.159
+sudo sed -i 's/PermitRootLogin no/PermitRootLogin yes/g' /etc/ssh/sshd_config
+sudo sed -i 's/PasswordAuthentication no/PasswordAuthentication yes/g' /etc/ssh/sshd_config
+sudo systemctl stop firewalld
+sudo systemctl disable firewalld
+sudo systemctl mask --now firewalld
+sudo passwd root
 sudo reboot
 
 ```
@@ -131,10 +163,10 @@ sudo reboot
 
 ### Prepare the JSON file for installer setup
 - Retrieve the DNS of the load balancer from the AWS console
-e.g. theocrithary-20240523T221731-4c32464c6a13470d.elb.eu-west-1.amazonaws.com
+e.g. theocrithary-20240528T001402-01e5e64bde6920f2.elb.eu-west-1.amazonaws.com
 - Retrieve one of the IP's by resolving the DNS name
 ```
-dig +short theocrithary-20240527T040224-9c54180ddbd88128.elb.eu-west-1.amazonaws.com | head -1
+dig +short theocrithary-20240528T001402-01e5e64bde6920f2.elb.eu-west-1.amazonaws.com | head -1
 ```
 - Prepare the JSON file as per below and replace the "Nodes" hostname and IP with the co-res instances 1-3
 ```
@@ -143,16 +175,16 @@ dig +short theocrithary-20240527T040224-9c54180ddbd88128.elb.eu-west-1.amazonaws
     "Nodes":
     [
       {
-        "hostname": "ip-172-26-2-53.eu-west-1.compute.internal",
-        "ipaddress": "172.26.2.53"
+        "hostname": "ip-172-26-2-60.eu-west-1.compute.internal",
+        "ipaddress": "172.26.2.60"
       },
       {
-        "hostname": "ip-172-26-2-122.eu-west-1.compute.internal",
-        "ipaddress": "172.26.2.122"
+        "hostname": "ip-172-26-2-118.eu-west-1.compute.internal",
+        "ipaddress": "172.26.2.118"
       },
       {
-        "hostname": "ip-172-26-2-160.eu-west-1.compute.internal",
-        "ipaddress": "172.26.2.160"
+        "hostname": "ip-172-26-2-156.eu-west-1.compute.internal",
+        "ipaddress": "172.26.2.156"
       }
     ],
  
@@ -166,9 +198,9 @@ dig +short theocrithary-20240527T040224-9c54180ddbd88128.elb.eu-west-1.amazonaws
 	  }
     ],
     
-    "PFMPHostname" : "172.26.2.188",
+    "PFMPHostname" : "172.26.2.62",
   
-    "PFMPHostIP" : "172.26.2.188"
+    "PFMPHostIP" : "172.26.2.62"
 }
 ```
 
@@ -211,7 +243,7 @@ tail -f /tmp/bundle/pfmp_deployments/PFMP*/atlantic/logs/bedrock.log
 
 ## Step 5: Login to PowerFlex Manager to complete setup
 
-- Use a browser to open the PowerFlex Manager console; https://172.26.2.188
+- Use a browser to open the PowerFlex Manager console; https://172.26.2.62
 
 - Login with the default user account
 ```
@@ -224,8 +256,6 @@ admin / Admin123!
 
 - Upload the compliance bundle (e.g. https://pflex-packages.s3.eu-west-1.amazonaws.com/pflex-45/Software_Only_Complete_4.5.2_135/PowerFlex_Software_4.5.2.0_135_r1.zip) 
       - requires a CIFs/SMB file share to host the file or a web server such as AWS S3 with a public URL
-
-- The package download will take a few mins to complete, but will raise a critical warning. Action it by allowing unsigned package.
 
 - Upload the compatibility management version file (e.g. https://pflex-packages.s3.eu-west-1.amazonaws.com/pflex-45/Software_Only_Complete_4.5.2_135/cm-20240314-01.gpg)
      - Settings -> compatibility management -> upload file
@@ -246,10 +276,10 @@ admin / Admin123!
       - DNS Suffix: blank
       - IP Address Range
       - Role: Server or Client
-      - Starting IP: 172.26.2.53
-      - Ending IP: 172.26.2.53
-      - Starting IP: 172.26.2.36
-      - Ending IP: 172.26.2.36
+      - Starting IP: 172.26.2.60
+      - Ending IP: 172.26.2.60
+      - Starting IP: 172.26.2.31
+      - Ending IP: 172.26.2.31
 
       - Define networks -> Define
       - Name: powerflex-az2
@@ -263,10 +293,10 @@ admin / Admin123!
       - DNS Suffix: blank
       - IP Address Range
       - Role: Server or Client
-      - Starting IP: 172.26.2.122
-      - Ending IP: 172.26.2.122
       - Starting IP: 172.26.2.118
       - Ending IP: 172.26.2.118
+      - Starting IP: 172.26.2.111
+      - Ending IP: 172.26.2.111
 
       - Define networks -> Define
       - Name: powerflex-az3
@@ -280,10 +310,10 @@ admin / Admin123!
       - DNS Suffix: blank
       - IP Address Range
       - Role: Server or Client
-      - Starting IP: 172.26.2.160
-      - Ending IP: 172.26.2.160
-      - Starting IP: 172.26.2.141
-      - Ending IP: 172.26.2.141
+      - Starting IP: 172.26.2.156
+      - Ending IP: 172.26.2.156
+      - Starting IP: 172.26.2.159
+      - Ending IP: 172.26.2.159
 ```
 
 ## Step 6: Install PowerFlex software on SDS storage nodes
@@ -311,15 +341,54 @@ admin / Admin123!
 
 ## Step 7: Install the SDC client on a Linux host
 
-### RHEL
+### Ubuntu
+- Confirm kernel version and if required, change the kernel to a generic kernel such as 5.15.0-107-generic
+```
+uname -r
+```
+- If your kernel is using an AWS kernel, then follow the below steps to replace the kernel with a generic type
+```
+sudo apt-get update && sudo apt install linux-generic -y
+```
+- Check the installed kernels
+```
+dpkg-query -W -f='${Package} ${Version}\n' | grep -E '^(linux.*)'
+```
+- Your desired kernel should be listed (e.g. linux-generic 5.15.0.107.107)
+- Get the Grub menu option to be used with the generic kernel
+```
+grep submenu /boot/grub/grub.cfg
+```
+- The output should be something like; submenu 'Advanced options for Ubuntu' $menuentry_id_option 'gnulinux-advanced-db5e27f6-7377-40b0-9756-df259213cbb0'
+- Get the full menu entry ID with the following command
+```
+grep 5.15.0.107 /boot/grub/grub.cfg
+```
+- The output should contain an ID for the kernel similar to this; gnulinux-5.15.0-107-generic-advanced-db5e27f6-7377-40b0-9756-df259213cbb0
+- Edit the default grub boot config to use the new kernel
+```
+sudo sed -i 's/GRUB_DEFAULT=0/GRUB_DEFAULT="gnulinux-advanced-db5e27f6-7377-40b0-9756-df259213cbb0>gnulinux-5.15.0-107-generic-advanced-db5e27f6-7377-40b0-9756-df259213cbb0"/g' /etc/default/grub
+sudo update-grub
+sudo reboot
+```
+- After the Linux host reboots, log back in via SSH and confirm the correct kernel
+```
+uname -r
+```
+- The kernel should now be similar to; 5.15.0-107-generic
 - Obtain the following files from the complete SW package and transfer to Linux host
-      - RPM-GPG-KEY-ScaleIO_4.5.2000.135
-      - EMC-ScaleIO-sdc-4.5-2000.135.el8.x86_64.rpm
-
+      - EMC-ScaleIO-lia-4.5-2000.135.Ubuntu.22.04.x86_64.tar
+      - EMC-ScaleIO-sdc-4.5-2000.135.Ubuntu.22.04.x86_64.tar
+- Browse to the correct Linux distro, PowerFlex release and kernel version (e.g. ftp://ftp.emc.com/Ubuntu22.04/4.5.2000.135/5.15.0-107-generic/)
+- Transfer all 3 files to the Ubuntu host
 - Run the following commands to install the SDC client and connect it to the MDM;
 ```
-rpm --import RPM-GPG-KEY-ScaleIO_4.5.2000.135
-MDM_IP=172.26.2.36 rpm -i EMC-ScaleIO-sdc-4.5-2000.135.el8.x86_64.rpm
+tar -xvf EMC-ScaleIO-lia-4.5-2000.135.Ubuntu.22.04.x86_64.tar
+tar -xvf EMC-ScaleIO-sdc-4.5-2000.135.Ubuntu.22.04.x86_64.tar
+./siob_extract EMC-ScaleIO-sdc-4.5-2000.135.Ubuntu.22.04.x86_64.siob
+./siob_extract EMC-ScaleIO-lia-4.5-2000.135.Ubuntu.22.04.x86_64.siob
+sudo MDM_IP=172.26.2.31 dpkg -i EMC-ScaleIO-sdc-4.5-2000.135.Ubuntu.22.04.x86_64.deb
+sudo TOKEN=<powerflex password> dpkg -i EMC-ScaleIO-lia-4.5-2000.135.Ubuntu.22.04.x86_64.deb
 service scini status
 systemctl status scini
 ```
@@ -362,14 +431,14 @@ mkfs -t ext4 /dev/scinia
 ```
 - Create a new directory to mount the device
 ```
-mkdir /data1
+mkdir /data0
 ```
 - Mount the device to the new directory
 ```
-mount /dev/scinia /data1
+mount /dev/scinia /data0
 ```
 - Change to the path and create a test file to confirm read/write access to the volume
 ```
-cd /data1
+cd /data0
 touch testfile
 ```
