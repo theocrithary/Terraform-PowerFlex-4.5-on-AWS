@@ -3,3 +3,4 @@ terraform.tfstate*
 ami/*
 assets/*
 provision/deployments/vpn-mode/vars.tf*
+provision/deployments/vpn-mode/6_co_res_3_disks.csv
