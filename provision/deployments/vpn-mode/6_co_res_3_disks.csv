@@ -1,10 +1,10 @@
 IPs,Password,Operating System,Is MDM/TB,Is SDS,SDS Storage Device List,Protection Domain,StoragePool List,Fault Set,Is SDC,Is SDR,SDR All IPs
-172.26.2.60,c4apj_N0va,linux,No,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ1,Yes,Yes,172.26.2.60
-172.26.2.118,c4apj_N0va,linux,TB,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ2,Yes,Yes,172.26.2.118
-172.26.2.156,c4apj_N0va,linux,TB,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ3,Yes,Yes,172.26.2.156
-172.26.2.31,c4apj_N0va,linux,Primary,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ1,Yes,Yes,172.26.2.31
-172.26.2.111,c4apj_N0va,linux,Secondary,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ2,Yes,Yes,172.26.2.111
-172.26.2.159,c4apj_N0va,linux,Secondary,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ3,Yes,Yes,172.26.2.159
+172.26.2.60,password,linux,No,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ1,Yes,Yes,172.26.2.60
+172.26.2.118,password,linux,TB,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ2,Yes,Yes,172.26.2.118
+172.26.2.156,password,linux,TB,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ3,Yes,Yes,172.26.2.156
+172.26.2.31,password,linux,Primary,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ1,Yes,Yes,172.26.2.31
+172.26.2.111,password,linux,Secondary,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ2,Yes,Yes,172.26.2.111
+172.26.2.159,password,linux,Secondary,Yes,"/dev/nvme1n1,/dev/nvme2n1,/dev/nvme3n1",PD1,SP1,AZ3,Yes,Yes,172.26.2.159
 ,,,,,,,,,,,
 Storage Pool Configuration,,,,,,,,,,,
 ProtectionDomain,StoragePool,Media Type,Replication journal capacity percentage,,,,,,,,
