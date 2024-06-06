@@ -2,6 +2,9 @@
 This project will deploy APEX Block Storage (aka. PowerFlex) in AWS using Terraform based infrastructure as code and some manual steps that are required post deployment. 
 This was tested using a RHEL 8 Linux server and may require small tweaks to the code depending on which OS you are using to run the Terraform deployment.
 
+# YouTube Video
+https://www.youtube.com/watch?v=glse3bcyPes
+
 ## Step 1: Pre-reqs
 
 ### Install Terraform
